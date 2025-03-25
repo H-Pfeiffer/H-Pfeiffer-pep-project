@@ -23,10 +23,10 @@ public class AccountService {
      * @return persisted account if successful
      */
     public Account registerAccount(Account account){
-        // if(account.username == "" || accountDao.getAccountByUsername() != null || account.password.length() < 4 ){
-        //     return null;
-        // } else {
+        if(account.username == "" || accountDAO.getAccountByUsername(account.username) != -1 || account.password.length() < 4 ){
+            return null;
+        } else {
             return accountDAO.insertAccount(account);
-        // }
+        }
     }
 }

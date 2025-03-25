@@ -24,6 +24,10 @@ public class SocialMediaController {
     // create your constructor with a new instance of your Service 
     AccountService accountService;
 
+    public SocialMediaController(){
+        this.accountService = new AccountService();
+    }
+
 
 
     public Javalin startAPI() {
