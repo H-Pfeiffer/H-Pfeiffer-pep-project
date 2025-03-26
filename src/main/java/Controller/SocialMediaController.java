@@ -100,6 +100,10 @@ public class SocialMediaController {
     private void getAMessageByIDHandler(Context ctx){
         int message_id = Integer.parseInt(ctx.pathParam("message_id"));
         Message message = messageService.getAMessageByMessageID(message_id);
-        ctx.json(message);
+        if (message != null){
+            ctx.json(message);
+        } else {
+            ctx.result("");
+        }
     }
 }
