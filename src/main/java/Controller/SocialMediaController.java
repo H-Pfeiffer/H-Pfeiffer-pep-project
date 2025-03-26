@@ -34,7 +34,8 @@ public class SocialMediaController {
         Javalin app = Javalin.create();
         app.get("example-endpoint", this::exampleHandler);
         // define other endpoints here 
-        app.post("register", this::registerAccountHandler);
+        app.post("register", this::postAccountHandler);
+        app.post("login", this::postLoginHandler);
 
         return app;
     }
@@ -53,7 +54,7 @@ public class SocialMediaController {
      *            be available to this method automatically via app.post method. 
      */
 
-    private void registerAccountHandler(Context ctx) throws JsonProcessingException{
+    private void postAccountHandler(Context ctx) throws JsonProcessingException{
         ObjectMapper mapper = new ObjectMapper();
         Account account = mapper.readValue(ctx.body(), Account.class);
         Account registeredAccount = accountService.registerAccount(account);
@@ -62,7 +63,19 @@ public class SocialMediaController {
         } else {
             ctx.status(400);
         }
-    }   
+    }
+    
+    private void postLoginHandler(Context ctx) throws JsonProcessingException{
+        ObjectMapper mapper = new ObjectMapper();
+        Account account = mapper.readValue(ctx.body(), Account.class);
+        Account loggedIntoAccount = accountService.loginAccount(account);
+        if(loggedIntoAccount != null){
+            ctx.json(mapper.writeValueAsString(loggedIntoAccount));
+            ctx.status(200);
+        } else {
+            ctx.status(401);
+        }
+    }
 
 
 }

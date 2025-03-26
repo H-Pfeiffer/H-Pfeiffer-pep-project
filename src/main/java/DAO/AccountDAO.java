@@ -34,22 +34,32 @@ public class AccountDAO {
         return null;
     }
 
-    public int getAccountByUsername(String username){
+    /**
+     * check to see if a username exists in the database
+     * 
+     * if username exists, return account_id 
+     * @param String username 
+     * @return int account_id
+     */
+    public Account getAccountByUsername(String username){
         Connection connection = ConnectionUtil.getConnection();
         try {
-            String sql = "SELECT account_id FROM account WHERE username = ?;";
+            String sql = "SELECT account_id, username, password FROM account WHERE username = ?;";
             PreparedStatement ps = connection.prepareStatement(sql);
 
             ps.setString(1,username);
 
             ResultSet res = ps.executeQuery();
-            int account_id = res.getInt("account_id");
-
-            return account_id;
+            while(res.next()){
+                Account account = new Account(res.getInt("account_id"),
+                        res.getString("username"),
+                        res.getString("password"));
+                return account;
+            }
 
         } catch (SQLException e){
             System.out.println(e.getMessage());
         }
-        return -1;
+        return null;
     }
 }
