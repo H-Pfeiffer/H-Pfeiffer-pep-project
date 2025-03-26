@@ -6,8 +6,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 import Model.Account;
-// import Model.Message;
+import Model.Message;
 import Service.AccountService;
+import Service.MessageService;
 
 /**
  * TODO: You will need to write your own endpoints and handlers for your controller. The endpoints you will need can be
@@ -23,9 +24,11 @@ public class SocialMediaController {
 
     // create your constructor with a new instance of your Service 
     AccountService accountService;
+    MessageService messageService;
 
     public SocialMediaController(){
         this.accountService = new AccountService();
+        this.messageService = new MessageService();
     }
 
 
@@ -36,6 +39,7 @@ public class SocialMediaController {
         // define other endpoints here 
         app.post("register", this::postAccountHandler);
         app.post("login", this::postLoginHandler);
+        app.post("messages", this::postMessageHandler);
 
         return app;
     }
@@ -71,11 +75,19 @@ public class SocialMediaController {
         Account loggedIntoAccount = accountService.loginAccount(account);
         if(loggedIntoAccount != null){
             ctx.json(mapper.writeValueAsString(loggedIntoAccount));
-            ctx.status(200);
         } else {
             ctx.status(401);
         }
     }
 
-
+    private void postMessageHandler(Context ctx) throws JsonProcessingException{
+        ObjectMapper mapper = new ObjectMapper();
+        Message message = mapper.readValue(ctx.body(), Message.class);
+        Message addedMessage = messageService.addMessage(message);
+        if(addedMessage != null){
+            ctx.json(mapper.writeValueAsString(addedMessage));
+        } else {
+            ctx.status(400);
+        }
+    }
 }

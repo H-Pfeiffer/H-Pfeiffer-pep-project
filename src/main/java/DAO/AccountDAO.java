@@ -49,11 +49,11 @@ public class AccountDAO {
 
             ps.setString(1,username);
 
-            ResultSet res = ps.executeQuery();
-            while(res.next()){
-                Account account = new Account(res.getInt("account_id"),
-                        res.getString("username"),
-                        res.getString("password"));
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                Account account = new Account(rs.getInt("account_id"),
+                        rs.getString("username"),
+                        rs.getString("password"));
                 return account;
             }
 
