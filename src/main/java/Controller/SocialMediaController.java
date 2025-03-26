@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.javalin.Javalin;
 import io.javalin.http.Context;
+// import java.lang.Integer;
 import Model.Account;
 import Model.Message;
 import Service.AccountService;
@@ -40,6 +41,7 @@ public class SocialMediaController {
         app.post("login", this::postLoginHandler);
         app.post("messages", this::postMessageHandler);
         app.get("messages", this::getAllMessagesHandler);
+        app.get("messages/{message_id}", this::getAMessageByIDHandler);
 
         return app;
     }
@@ -93,5 +95,11 @@ public class SocialMediaController {
 
     private void getAllMessagesHandler(Context ctx){
         ctx.json(messageService.getAllMessages());
+    }
+
+    private void getAMessageByIDHandler(Context ctx){
+        int message_id = Integer.parseInt(ctx.pathParam("message_id"));
+        Message message = messageService.getAMessageByMessageID(message_id);
+        ctx.json(message);
     }
 }
