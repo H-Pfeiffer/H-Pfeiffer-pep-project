@@ -20,25 +20,49 @@ public class MessageService {
      * This adds a new message to the database 
      *  NOTE: message must not be blank
      * 
-     * @param account an message obj
+     * @param account a Message obj
      * @return persisted messsage if successful, else null
      */
     public Message addMessage(Message message){
         return message.getMessage_text() != "" ? messageDAO.insertMessage(message) : null;
     }
 
+    /**
+     * retrieves all persisted messages from database 
+     * 
+     * @param account an Message obj
+     * @return a list of all messages (i.e. List<Message>)
+     */
     public List<Message> getAllMessages(){
         return messageDAO.getAllMessages();
     }
 
+    /**
+     * retrieve a single message from database by its message_id
+     * 
+     * @param int messsage_id
+     * @return a persisted Message obj from database
+     */
     public Message getAMessageByMessageID(int message_id){
         return messageDAO.getAMessageByMessageID(message_id);
     }
 
+    /**
+     * deletes a single message from database by its message_id
+     * 
+     * @param int messsage_id
+     * @return deleted Message obj from database
+     */
     public Message deleteMessageByMessageID(int message_id){
         return messageDAO.deleteMessageByMessageID(message_id);
     }
 
+    /**
+     * updates a single message from database by its message_id
+     * 
+     * @param int messsage_id, String message_text
+     * @return updated message from database
+     */
     public Message updateMessageByMessageID(int message_id, String message_text){
         Message message = getAMessageByMessageID(message_id);
 
@@ -49,6 +73,12 @@ public class MessageService {
         }
     }
 
+    /**
+     * gets all messages posted by a single user
+     * 
+     * @param int posted_by
+     * @return a list of all messages posted by a single user (i.e. List<Message>)
+     */
     public List<Message> getAllMessagesPostedByUser(int posted_by){
         return messageDAO.getAllMessagesPostedByUser(posted_by);
     }

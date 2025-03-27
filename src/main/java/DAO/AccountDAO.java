@@ -9,9 +9,10 @@ public class AccountDAO {
     
     /**
      * insert a new account into the Account table 
+     * NOTE: account_id should be automatically created by the sql database(set to auto_increment)
      * 
-     * The account_id should be automatically created by the sql database(set to auto_increment)
-     * Therefore, only need to insert the username and password 
+     * @param Account account
+     * @return Account account persisted in database or null
      */
     public Account insertAccount(Account account){
         Connection connection = ConnectionUtil.getConnection();
@@ -35,11 +36,10 @@ public class AccountDAO {
     }
 
     /**
-     * check to see if a username exists in the database
+     * get an account from database by username
      * 
-     * if username exists, return account_id 
      * @param String username 
-     * @return int account_id
+     * @return Account account or null
      */
     public Account getAccountByUsername(String username){
         Connection connection = ConnectionUtil.getConnection();

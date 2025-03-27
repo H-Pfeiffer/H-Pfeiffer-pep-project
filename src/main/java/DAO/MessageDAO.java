@@ -8,20 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
- * message_id integer primary key auto_increment,
-    posted_by integer,
-    message_text varchar(255),
-    time_posted_epoch long,
-    foreign key (posted_by) references Account(account_id)
- */
-
-
-/**
  * inserts a new message to the database 
  * 
  * @param Message message 
- * @return Message
+ * @return Message message (that was inserted)
  */
 public class MessageDAO {
     
@@ -47,6 +37,12 @@ public class MessageDAO {
         return null;
     }
 
+    /**
+     * get all messages persisted in database
+     * 
+     * @param none
+     * @return List<Message> 
+     */
     public List<Message> getAllMessages(){
         Connection connection = ConnectionUtil.getConnection();
         List<Message> messages = new ArrayList<>();
@@ -69,6 +65,12 @@ public class MessageDAO {
         return messages;
     }
 
+    /**
+     * get a single message from its ID
+     * 
+     * @param int message_id
+     * @return Message message 
+     */
     public Message getAMessageByMessageID(int message_id){
         Connection connection = ConnectionUtil.getConnection();
         try {
@@ -91,6 +93,12 @@ public class MessageDAO {
         return null;
     }
 
+    /**
+     * delete a message in database with message_id
+     * 
+     * @param int message_id 
+     * @return Message message (deleted message)
+     */
     public Message deleteMessageByMessageID(int message_id){
         Connection connection = ConnectionUtil.getConnection();
         try {
@@ -108,6 +116,12 @@ public class MessageDAO {
         return null;
     }
 
+    /**
+     * update a message text in the database by its message_id
+     * 
+     * @param int message_id, String message_text
+     * @return Message obj (that was updated)
+     */
     public Message updateMessageByMessageID(int message_id, String message_text){
         Connection connection = ConnectionUtil.getConnection();
         try {
@@ -127,6 +141,12 @@ public class MessageDAO {
         return null;
     }
 
+    /**
+     * gets a list of all messages posted by a user
+     * 
+     * @param int posted_by
+     * @return List<Message>
+     */
     public List<Message> getAllMessagesPostedByUser(int posted_by){
         Connection connection = ConnectionUtil.getConnection();
         List<Message> messages = new ArrayList<>();
